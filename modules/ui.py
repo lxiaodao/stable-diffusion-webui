@@ -440,11 +440,12 @@ def create_ui():
     reload_javascript()
 
     parameters_copypaste.reset()
+    
+    #注释txt2img功能 7-31
+    """ modules.scripts.scripts_current = modules.scripts.scripts_txt2img
+    modules.scripts.scripts_txt2img.initialize_scripts(is_img2img=False) """
 
-    modules.scripts.scripts_current = modules.scripts.scripts_txt2img
-    modules.scripts.scripts_txt2img.initialize_scripts(is_img2img=False)
-
-    with gr.Blocks(analytics_enabled=False) as txt2img_interface:
+    """ with gr.Blocks(analytics_enabled=False) as txt2img_interface: 
         txt2img_prompt, txt2img_prompt_styles, txt2img_negative_prompt, submit, _, _, txt2img_prompt_style_apply, txt2img_save_style, txt2img_paste, extra_networks_button, token_counter, token_button, negative_token_counter, negative_token_button, restore_progress_button = create_toprow(is_img2img=False)
 
         dummy_component = gr.Label(visible=False)
@@ -676,7 +677,7 @@ def create_ui():
             negative_token_button.click(fn=wrap_queued_call(update_token_counter), inputs=[txt2img_negative_prompt, steps], outputs=[negative_token_counter])
 
             ui_extra_networks.setup_ui(extra_networks_ui, txt2img_gallery)
-
+    """
     modules.scripts.scripts_current = modules.scripts.scripts_img2img
     modules.scripts.scripts_img2img.initialize_scripts(is_img2img=True)
 
@@ -1062,10 +1063,11 @@ def create_ui():
             ))
 
     modules.scripts.scripts_current = None
-
-    with gr.Blocks(analytics_enabled=False) as extras_interface:
-        ui_postprocessing.create_ui()
-
+    # 注释extra 高清化界面
+    """  
+   with gr.Blocks(analytics_enabled=False) as extras_interface:
+        ui_postprocessing.create_ui() """
+    """
     with gr.Blocks(analytics_enabled=False) as pnginfo_interface:
         with gr.Row().style(equal_height=False):
             with gr.Column(variant='panel'):
@@ -1088,7 +1090,7 @@ def create_ui():
             inputs=[image],
             outputs=[html, generation_info, html2],
         )
-
+    """
     def update_interp_description(value):
         interp_description_css = "<p style='margin-bottom: 2.5em'>{}</p>"
         interp_descriptions = {
@@ -1097,7 +1099,9 @@ def create_ui():
             "Add difference": interp_description_css.format("The difference between the last two models will be added to the first. Requires three models; A, B and C. The result is calculated as A + (B - C) * M")
         }
         return interp_descriptions[value]
-
+    
+    #注释模型合并功能界面
+    """
     with gr.Blocks(analytics_enabled=False) as modelmerger_interface:
         with gr.Row().style(equal_height=False):
             with gr.Column(variant='compact'):
@@ -1141,7 +1145,10 @@ def create_ui():
             with gr.Column(variant='compact', elem_id="modelmerger_results_container"):
                 with gr.Group(elem_id="modelmerger_results_panel"):
                     modelmerger_result = gr.HTML(elem_id="modelmerger_result", show_label=False)
+    """
 
+    #注释训练功能界面
+    """
     with gr.Blocks(analytics_enabled=False) as train_interface:
         with gr.Row().style(equal_height=False):
             gr.HTML(value="<p style='margin-bottom: 0.7em'>See <b><a href=\"https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Textual-Inversion\">wiki</a></b> for detailed explanation.</p>")
@@ -1459,7 +1466,7 @@ def create_ui():
             inputs=[],
             outputs=[],
         )
-
+    """
     def create_setting_component(key, is_quicksettings=False):
         def fun():
             return opts.data[key] if key in opts.data else opts.data_labels[key].default
@@ -1533,7 +1540,9 @@ def create_ui():
         opts.save(shared.config_filename)
 
         return get_value_for_setting(key), opts.dumpjson()
-
+    
+    #注释设置功能界面
+    """
     with gr.Blocks(analytics_enabled=False) as settings_interface:
         with gr.Row():
             with gr.Column(scale=6):
@@ -1649,18 +1658,19 @@ def create_ui():
             inputs=[],
             outputs=[],
         )
-
+    """
     interfaces = [
-        (txt2img_interface, "txt2img", "txt2img"),
+        #(txt2img_interface, "txt2img", "txt2img"),
         (img2img_interface, "img2img", "img2img"),
-        (extras_interface, "Extras", "extras"),
-        (pnginfo_interface, "PNG Info", "pnginfo"),
-        (modelmerger_interface, "Checkpoint Merger", "modelmerger"),
-        (train_interface, "Train", "train"),
+        #(extras_interface, "Extras", "extras"),
+        #(pnginfo_interface, "PNG Info", "pnginfo"),
+        #(modelmerger_interface, "Checkpoint Merger", "modelmerger"),
+        #(train_interface, "Train", "train"),
     ]
 
     interfaces += script_callbacks.ui_tabs_callback()
-    interfaces += [(settings_interface, "Settings", "settings")]
+    # 7-31
+    #interfaces += [(settings_interface, "Settings", "settings")]
 
     extensions_interface = ui_extensions.create_ui()
     interfaces += [(extensions_interface, "Extensions", "extensions")]
