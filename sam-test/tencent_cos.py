@@ -13,12 +13,12 @@ from qcloud_cos import CosS3Client
 
 class OssDef:
     def __init__(self, Manual=None):
-        self.secret_id = 'AKIDJI8mCOM7fy42oNiroXw75rPjohNp34sd'
-        self.secret_key = 'a7YoqeFclhRxFJ9l392lKjvxnTzJRPDo'
-        self.region = 'ap-nanjing'
+        self.secret_id = ''
+        self.secret_key = ''
+        self.region = ''
         self.token = None
         self.scheme = 'https'
-        self.bckt_id = 'stable-1305002912'
+        self.bckt_id = ''
         # sys.setrecursionlimit(10000)
         config = CosConfig(Region=self.region, SecretId=self.secret_id, SecretKey=self.secret_key, Token=self.token, Scheme=self.scheme)
         self.bucket = CosS3Client(config, retry=3)
